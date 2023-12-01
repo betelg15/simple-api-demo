@@ -1,7 +1,7 @@
 package com.example.demo.rest.todo;
 
-import com.example.demo.rest.todo.model.TodoCreateRequestDto;
-import com.example.demo.rest.todo.model.TodoUpdateRequestDto;
+import com.example.demo.rest.model.TodoCreateRequestDto;
+import com.example.demo.rest.model.TodoUpdateRequestDto;
 import com.example.demo.service.todo.TodoService;
 import com.example.demo.service.todo.model.TodoCreated;
 import com.example.demo.service.todo.model.TodoItem;
@@ -84,8 +84,8 @@ class TodoControllerTest {
                 .andExpect(jsonPath("$[0].id").value(1))
                 .andExpect(jsonPath("$[0].message").value("New Todo"))
                 .andExpect(jsonPath("$[0].isDone").value(false))
-                .andExpect(jsonPath("$[0].createdAt").value("2023-12-25T23:12:25"))
-                .andExpect(jsonPath("$[0].updatedAt").value("2023-12-25T23:12:25"));
+                .andExpect(jsonPath("$[0].createdAt").value("2023-12-25T23:12:25Z"))
+                .andExpect(jsonPath("$[0].updatedAt").value("2023-12-25T23:12:25Z"));
     }
 
     @DisplayName("Todo 를 수정할 수 있어야 한다.")
@@ -102,7 +102,7 @@ class TodoControllerTest {
         );
 
         TodoUpdateRequestDto requestDto = new TodoUpdateRequestDto();
-        requestDto.setDone(true);
+        requestDto.setIsDone(true);
 
         mockMvc.perform(patch("/api/v1/todos/{id}", todoId)
                         .contentType(MediaType.APPLICATION_JSON)

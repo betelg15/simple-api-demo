@@ -1,0 +1,274 @@
+openapi: 3.0.3
+info:
+  title: Todo API
+  description: |-
+    TODO API 스펙
+  version: 1.0.0
+servers:
+  - url: https://dev-domain/api/v1
+    description: DEV
+  - url: https://stg-domain/api/v1
+    description: STAGE
+  - url: https://prd-domain/api/v1
+    description: PROD
+tags:
+  - name: Todo
+    description: 할일
+
+paths:
+  /api/v1/todos:
+    post:
+      tags:
+        - Todo
+      summary: 할일 생성
+      description: 할일 생성
+      operationId: createTodo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TodoCreateRequestDto'
+      responses:
+        '200':
+          description: 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoCreateResponseDto'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - bearerAuth: []
+
+    get:
+      tags:
+        - Todo
+      summary: 할일 목록 조회
+      description: 할일 목록 조회
+      operationId: getTodoList
+      responses:
+        '200':
+          description: 성공
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TodoItemResponseDto'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - bearerAuth: []
+
+  /api/v1/todos/{id}:
+    patch:
+      tags:
+        - Todo
+      summary: 할일 수정
+      description: 할일 수정
+      operationId: updateTodo
+      parameters:
+        - $ref: '#/components/parameters/TodoIdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TodoUpdateRequestDto'
+      responses:
+        '200':
+          description: 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoUpdateResponseDto'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - bearerAuth: []
+
+    delete:
+      tags:
+        - Todo
+      summary: 할일 삭제
+      description: 할일 삭제
+      operationId: removeTodo
+      parameters:
+        - $ref: '#/components/parameters/TodoIdParam'
+      responses:
+        '200':
+          description: 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoRemoveResponseDto'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - bearerAuth: []
+
+components:
+  parameters:
+    TodoIdParam:
+      name: id
+      in: path
+      description: Todo ID
+      required: true
+      schema:
+        type: integer
+        format: int64
+
+  responses:
+    BadRequest:
+      description: 요청 실패
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponseDto'
+
+    Unauthorized:
+      description: 인증 실패
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponseDto'
+
+    Forbidden:
+      description: 인가 실패 (권한 없음)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponseDto'
+
+    InternalServerError:
+      description: 애플리케이션 오류
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponseDto'
+
+  schemas:
+    TodoCreateRequestDto:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+
+    TodoCreateResponseDto:
+      type: object
+      required:
+        - id
+        - message
+      properties:
+        id:
+          type: integer
+          format: int64
+        message:
+          type: string
+
+    TodoItemResponseDto:
+      type: object
+      required:
+        - id
+        - message
+        - isDone
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: integer
+          format: int64
+        message:
+          type: string
+        isDone:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    TodoUpdateRequestDto:
+      type: object
+      required:
+        - isDone
+      properties:
+        isDone:
+          type: boolean
+
+    TodoUpdateResponseDto:
+      type: object
+      required:
+        - id
+        - isDone
+      properties:
+        id:
+          type: integer
+          format: int64
+        isDone:
+          type: boolean
+
+    TodoRemoveResponseDto:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+
+    ErrorResponseDto:
+      type: object
+      required:
+        - errors
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorItemResponseDto'
+
+    ErrorItemResponseDto:
+      type: object
+      required:
+        - code
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        parameter:
+          type: string
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
