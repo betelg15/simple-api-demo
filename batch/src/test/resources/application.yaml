@@ -1,0 +1,24 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:13307/demo
+    username: root
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      connection-timeout: 30000
+      maximum-pool-size: 5
+
+  jpa:
+    properties:
+      hibernate:
+        jdbc.batch_size: 1000
+        order_inserts: true
+        order_updates: true
+
+  batch:
+    job:
+      name: ${job.name:}
+      enabled: false
+
+  main:
+    web-application-type: NONE
