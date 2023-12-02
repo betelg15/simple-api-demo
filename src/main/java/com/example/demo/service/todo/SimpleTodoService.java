@@ -7,6 +7,7 @@ import com.example.demo.service.todo.model.TodoItem;
 import com.example.demo.service.todo.model.TodoUpdated;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -36,6 +37,7 @@ public class SimpleTodoService implements TodoService {
         );
     }
 
+    @Cacheable(value = "todos")
     @Override
     public List<TodoItem> getTodoList() {
         return todoRepository.findAll()

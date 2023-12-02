@@ -5,12 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @Data
 @Getter
-public class TodoItem {
+public class TodoItem implements Serializable {
     private long id;
     private String message;
     private boolean isDone;

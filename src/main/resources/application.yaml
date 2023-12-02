@@ -20,3 +20,7 @@ logging:
     org:
       springframework:
         security: DEBUG
+
+redis:
+  hostName: localhost
+  port: 6379
