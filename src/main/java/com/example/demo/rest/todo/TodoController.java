@@ -1,5 +1,6 @@
 package com.example.demo.rest.todo;
 
+import com.example.demo.core.annotation.security.IsUser;
 import com.example.demo.rest.TodoApi;
 import com.example.demo.rest.model.*;
 import com.example.demo.service.todo.TodoService;
@@ -9,6 +10,8 @@ import com.example.demo.service.todo.model.TodoUpdated;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.ZoneOffset;
@@ -20,6 +23,7 @@ public class TodoController implements TodoApi {
 
     private final TodoService todoService;
 
+    @IsUser
     @Override
     public ResponseEntity<TodoCreateResponseDto> createTodo(TodoCreateRequestDto todoCreateRequestDto) {
         TodoCreated created = todoService.createTodo(todoCreateRequestDto.getMessage());
@@ -27,8 +31,10 @@ public class TodoController implements TodoApi {
         return new ResponseEntity<>(responseBody, HttpStatus.OK);
     }
 
+    @IsUser
     @Override
     public ResponseEntity<List<TodoItemResponseDto>> getTodoList() {
+        SecurityContext sc = SecurityContextHolder.getContext();
         List<TodoItem> todoList = todoService.getTodoList();
 
         List<TodoItemResponseDto> responseBody = todoList.stream()
@@ -38,6 +44,7 @@ public class TodoController implements TodoApi {
         return new ResponseEntity<>(responseBody, HttpStatus.OK);
     }
 
+    @IsUser
     @Override
     public ResponseEntity<TodoRemoveResponseDto> removeTodo(Long id) {
         Long removedId = todoService.removeTodo(id);
@@ -45,6 +52,7 @@ public class TodoController implements TodoApi {
         return new ResponseEntity<>(responseBody, HttpStatus.OK);
     }
 
+    @IsUser
     @Override
     public ResponseEntity<TodoUpdateResponseDto> updateTodo(Long id, TodoUpdateRequestDto todoUpdateRequestDto) {
         TodoUpdated updated = todoService.updateTodo(id, todoUpdateRequestDto.getIsDone());

@@ -1,5 +1,6 @@
 package com.example.demo.rest.todo;
 
+import com.example.demo.config.SecurityConfig;
 import com.example.demo.rest.model.TodoCreateRequestDto;
 import com.example.demo.rest.model.TodoUpdateRequestDto;
 import com.example.demo.service.todo.TodoService;
@@ -14,7 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
@@ -26,6 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @AutoConfigureMockMvc
 @WebMvcTest
+@Import(value = {SecurityConfig.class})
 class TodoControllerTest {
 
     @Autowired
@@ -37,6 +41,7 @@ class TodoControllerTest {
     @MockBean
     private TodoService todoService;
 
+    @WithMockUser
     @DisplayName("Todo 항목을 생성할 수 있어야 한다.")
     @Test
     void createTodo() throws Exception {
@@ -60,6 +65,7 @@ class TodoControllerTest {
                 .andExpect(jsonPath("$.message").value("New Todo"));
     }
 
+    @WithMockUser
     @DisplayName("Todo 목록을 조회할 수 있어야 한다.")
     @Test
     void getTodoList() throws Exception {
@@ -88,6 +94,7 @@ class TodoControllerTest {
                 .andExpect(jsonPath("$[0].updatedAt").value("2023-12-25T23:12:25Z"));
     }
 
+    @WithMockUser
     @DisplayName("Todo 를 수정할 수 있어야 한다.")
     @Test
     void updateTodo() throws Exception {
@@ -112,6 +119,7 @@ class TodoControllerTest {
                 .andExpect(jsonPath("$.isDone").value(true));
     }
 
+    @WithMockUser
     @DisplayName("Todo 를 삭제할 수 있어야 한다.")
     @Test
     void removeTodo() throws Exception {

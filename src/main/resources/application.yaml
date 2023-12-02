@@ -7,3 +7,16 @@ spring:
     hikari:
       connection-timeout: 30000
       maximum-pool-size: 5
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost
+          jwk-set-uri: http://localhost
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
