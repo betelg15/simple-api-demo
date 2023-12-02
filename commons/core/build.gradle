@@ -1,0 +1,6 @@
+dependencies {
+    compileOnly 'org.springframework.boot:spring-boot-starter-security'
+}
+
+bootJar { enabled = false }
+jar { enabled = true }
