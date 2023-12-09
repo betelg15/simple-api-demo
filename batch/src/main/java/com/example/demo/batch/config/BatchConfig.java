@@ -1,5 +1,6 @@
 package com.example.demo.batch.config;
 
+import com.example.demo.infra.db.DemoDbConfig;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.batch.core.launch.JobLauncher;
@@ -12,7 +13,10 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@EnableBatchProcessing
+@EnableBatchProcessing(
+        dataSourceRef = DemoDbConfig.MAIN_DATA_SOURCE,
+        transactionManagerRef = DemoDbConfig.TRANSACTION_MANAGER
+)
 @EnableConfigurationProperties(BatchProperties.class)
 @Configuration
 public class BatchConfig {

@@ -2,17 +2,27 @@ spring:
   main:
     web-application-type: NONE
 
-  datasource:
-    url: jdbc:mysql://localhost:13307/demo
-    username: root
-    password: 1234
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    hikari:
-      connection-timeout: 30000
-      maximum-pool-size: 5
-
   kafka:
     bootstrap-servers: localhost:9091,localhost:9092,localhost:9093
+
+demo:
+  datasource:
+    main:
+      jdbc-url: jdbc:mysql://localhost:13307/demo
+      username: root
+      password: 1234
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      hikari:
+        connection-timeout: 30000
+        maximum-pool-size: 5
+    replica:
+      jdbc-url: jdbc:mysql://localhost:13317/demo
+      username: root
+      password: 1234
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      hikari:
+        connection-timeout: 30000
+        maximum-pool-size: 5
 
 logging:
   level:

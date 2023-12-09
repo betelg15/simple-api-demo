@@ -5,10 +5,10 @@ import com.example.demo.api.service.todo.model.TodoItem;
 import com.example.demo.api.service.todo.model.TodoUpdated;
 import com.example.demo.persistence.repository.TodoRepository;
 import com.example.demo.persistence.repository.entity.TodoEntity;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -37,6 +37,7 @@ public class SimpleTodoService implements TodoService {
         );
     }
 
+    @Transactional(readOnly = true)
     @Cacheable(value = "todos")
     @Override
     public List<TodoItem> getTodoList() {
@@ -44,6 +45,7 @@ public class SimpleTodoService implements TodoService {
                 .stream().map(TodoItem::valueOf).toList();
     }
 
+    @Transactional
     @Override
     public TodoUpdated updateTodo(long id, boolean isDone) {
         TodoEntity todo = todoRepository.findById(id).orElseThrow();
@@ -56,6 +58,7 @@ public class SimpleTodoService implements TodoService {
         );
     }
 
+    @Transactional
     @Override
     public Long removeTodo(long id) {
         todoRepository.deleteById(id);

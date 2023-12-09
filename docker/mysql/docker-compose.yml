@@ -7,3 +7,14 @@ services:
       dockerfile: Dockerfile.main.local
     ports:
       - '13307:3306'
+
+  mysql-replica:
+    build:
+      context: .
+      dockerfile: Dockerfile.replica.local
+    depends_on:
+      - mysql-main
+    environment:
+      - MASTER_HOST=mysql-main
+    ports:
+      - '13317:3306'

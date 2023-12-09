@@ -1,5 +1,6 @@
 package com.example.demo.batch.job;
 
+import com.example.demo.infra.db.DemoDbConfig;
 import com.example.demo.persistence.repository.PaymentSettlementRepository;
 import com.example.demo.persistence.repository.entity.PaymentSettlementEntity;
 import org.springframework.batch.core.Job;
@@ -69,7 +70,7 @@ public class SampleJobConfig {
     @StepScope
     @Bean(READER_NAME)
     public JdbcCursorItemReader<Integer> reader(
-            DataSource dataSource,
+            @Qualifier(DemoDbConfig.REPLICA_DATA_SOURCE) DataSource dataSource,
             @Value("#{jobParameters['execAt']}") String execAtParam
     ) {
         String sql = """

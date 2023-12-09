@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureMockMvc
-@WebMvcTest
+@WebMvcTest(value = {TodoController.class})
 @Import(value = {SecurityConfig.class})
 class TodoControllerTest {
 

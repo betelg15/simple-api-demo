@@ -1,0 +1,21 @@
+[mysqld]
+;log_error=/var/log/mysql/mysql_error.log
+server-id=2
+read_only=1
+general_log=1
+slow_query_log=1
+long_query_time=2
+replicate-do-db=demo
+character-set-server=utf8mb4
+collation-server=utf8mb4_0900_ai_ci
+init-connect='SET NAMES utf8mb4'
+log_queries_not_using_indexes=1
+;sql_mode="ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"
+transaction-isolation=REPEATABLE-READ
+max_connections = 500
+
+[client]
+default-character-set=utf8mb4
+
+[mysql]
+default-character-set=utf8mb4
