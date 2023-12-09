@@ -1,4 +1,6 @@
 dependencies {
+    compileOnly 'org.springframework.kafka:spring-kafka'
+
     compileOnly 'org.springframework.boot:spring-boot-starter-data-redis'
     compileOnly 'org.springframework.boot:spring-boot-starter-cache'
     compileOnly 'org.springframework.boot:spring-boot-starter-security'

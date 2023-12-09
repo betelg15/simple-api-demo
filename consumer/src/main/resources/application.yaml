@@ -1,4 +1,7 @@
 spring:
+  main:
+    web-application-type: NONE
+
   datasource:
     url: jdbc:mysql://localhost:13307/demo
     username: root
@@ -8,13 +11,6 @@ spring:
       connection-timeout: 30000
       maximum-pool-size: 5
 
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: http://localhost
-          jwk-set-uri: http://localhost
-
   kafka:
     bootstrap-servers: localhost:9091,localhost:9092,localhost:9093
 
@@ -23,7 +19,3 @@ logging:
     org:
       springframework:
         security: DEBUG
-
-redis:
-  hostName: localhost
-  port: 6379

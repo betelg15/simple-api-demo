@@ -3,4 +3,5 @@ include 'commons:core'
 include 'commons:infra'
 include 'commons:persistence'
 include 'api'
-include("batch")
+include 'batch'
+include 'consumer'
