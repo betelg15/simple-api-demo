@@ -38,6 +38,20 @@ docker compose up --build
 docker compose down
 ```
 
+## Kafka 도커 사용하기
+
+docker/kafka 디렉터리 이동하여 다음과 같이 실행한다.
+
+```shell
+docker compose up --build
+```
+
+다음은 컨테이너를 중단시킨다.
+
+```shell
+docker compose down
+```
+
 ## API 서버 실행
 
 ```shell
